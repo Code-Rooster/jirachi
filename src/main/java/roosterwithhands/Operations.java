@@ -2,14 +2,20 @@ package roosterwithhands;
 
 import java.util.List;
 
+import java.awt.event.*;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
+//import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Operations {
-    public Area GetNearestArea(List<Area> areas, Point targetPoint)
+public class Operations implements ActionListener {
+    public static Area GetNearestArea(Point targetPoint)
     {
-        if(areas.size() > 0)
+        List<Area> areas = AreaManager.areas;
+
+        if(areas != null && areas.size() > 0)
         {
             int areaRadius = 10;
             Area currentClosestArea = areas.get(0);
@@ -41,21 +47,37 @@ public class Operations {
         }
     }
 
-    public float GetDistance(Point a, Point b)
+    public static float GetDistance(Point a, Point b)
     {
         return (float)Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
     }
 
-    public static void CreateArea(Point p)
+    public static void CreateArea(Point p, JFrame parentFrame)
     {
-        System.out.println("whoaaaa");
-
-        JDialog dialog = new JDialog(App.getFrames()[0], "Create a new Area");
+        JDialog dialog = new JDialog(parentFrame, "Create a new Area");
         String songName = "None";
         JLabel chosenSong = new JLabel("Chosen song: " + songName);
+        JButton button = new JButton("Choose Song");
 
-        JFileChooser chooser = new JFileChooser();
+        button.addActionListener(new Operations());
 
-        chooser.showOpenDialog(dialog);
+        //JFileChooser chooser = new JFileChooser();
+
+        dialog.add(chosenSong);
+        dialog.add(button);
+        //dialog.add(chooser);
+
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
+
+        if(actionCommand.equals("Choose Song"))
+        {
+            
+        }
     }
 }

@@ -2,14 +2,20 @@ package roosterwithhands;
 
 import javax.print.attribute.standard.Media;
 
-public class Area {
-    Point point;
+public class Area
+{
+    public String name;
 
-    Media themeMusic;
+    public Point point;
 
-    public Area(Point p, Media mus)
+    public Media themeMusic;
+
+    public Area(String n, Point p, Media mus)
     {
-        point = p;
-        themeMusic = mus;
+        this.name = n;
+        this.point = p;
+        this.themeMusic = mus;
+
+        AreaManager.AddArea(this);
     }
 }
