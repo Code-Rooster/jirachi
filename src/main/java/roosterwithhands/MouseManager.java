@@ -28,12 +28,13 @@ public class MouseManager {
                     {
                         // Handle clicking on nothing
 
-                        GUIManager.ShowContextMenu(e.getComponent(), GUIManager.overNothing);
+                        GUIManager.ShowContextMenu(e.getComponent(), App.guiManager.overNothing);
                     }
                 }
                 else if(SwingUtilities.isLeftMouseButton(e))
                 {
                     // Handle left mouse button clicked
+
                 }
             }
         });
@@ -50,7 +51,7 @@ public class MouseManager {
             public void mouseWheelMoved(MouseWheelEvent e)
             {
                 int notches = e.getWheelRotation();
-                System.out.println(notches);
+                App.guiManager.mapPanel.ChangeZoom(notches, lastMousePos);
             }
         });
     }

@@ -52,6 +52,11 @@ public class Operations implements ActionListener {
         return (float)Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
     }
 
+    public static int IntClamp(int original, int min, int max)
+    {
+        return (original > max ? max : original < min ? min : original);
+    }
+
     public static void CreateArea(Point p, JFrame parentFrame)
     {
         JDialog dialog = new JDialog(parentFrame, "Create a new Area");
