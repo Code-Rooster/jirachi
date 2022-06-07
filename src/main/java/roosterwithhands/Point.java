@@ -12,8 +12,8 @@ public class Point {
 
     public Point(float xPos, float yPos)
     {
-        this.x = (int) xPos;
-        this.y = (int) yPos;
+        this.x = (int) Math.round(xPos);
+        this.y = (int) Math.round(yPos);
     }
     
     public Point(Double xPos, Double yPos)

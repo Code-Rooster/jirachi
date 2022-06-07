@@ -2,6 +2,7 @@ package roosterwithhands;
 
 import java.awt.event.*;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -9,12 +10,6 @@ public class JirachiFrame extends JFrame implements ComponentListener
 {
     public float aspectRatio;
     MapPanel mapPanel;
-
-    public int panelX;
-    public int panelY;
-
-    public int panelWidth;
-    public int panelHeight;
 
     public JirachiFrame()
     {
@@ -41,36 +36,25 @@ public class JirachiFrame extends JFrame implements ComponentListener
         this.setVisible(true);
     }
 
+    public Rectangle RecalculateRect()
+    {
+        Rectangle rect = new Rectangle();
+
+        rect.width = (int) ((mapPanel.GetCurrentDiagLen() * aspectRatio) / Math.sqrt(Math.pow(aspectRatio, 2) + 1));
+        rect.height = (int) (mapPanel.GetCurrentDiagLen() / Math.sqrt(Math.pow(App.guiManager.jirachiFrame.aspectRatio, 2) + 1));
+
+        Point focalPoint = new Point(0.75 * mapPanel.getWidth(), 0.75 * mapPanel.getHeight());
+
+        rect.x = (int) ((float) (rect.width - getWidth()) / -((float) mapPanel.getWidth() / (float) focalPoint.x));
+
+        rect.y = (int) ((float) (rect.height - getHeight()) / -((float) mapPanel.getHeight() / (float) focalPoint.y));
+        
+        return rect;
+    }
+
     @Override
     public void componentResized(ComponentEvent e) {
-        Dimension newDimension = new Dimension(getWidth(), getHeight());
 
-        Point focalPoint = new Point(0.5 * mapPanel.getWidth(), 0.5 * mapPanel.getHeight());
-
-        if((float)newDimension.width / (float)newDimension.height > aspectRatio)
-        {
-            panelHeight = newDimension.height;
-            panelWidth = (int)((aspectRatio) * newDimension.height);
-
-            panelX = (int)((newDimension.width - panelWidth) / 2);
-            panelY = 0;
-        }
-        else if((float)newDimension.width / (float)newDimension.height < aspectRatio)
-        {
-            panelHeight = (int)((1 / aspectRatio) * newDimension.width);
-            panelWidth = newDimension.width;
-
-            panelX = 0;
-            panelY = (int)((newDimension.height - panelHeight) / 2);
-        }
-        else
-        {
-            panelWidth = newDimension.width;
-            panelHeight = newDimension.height;
-
-            panelX = 0;
-            panelY = 0;
-        }
     }
 
     @Override
