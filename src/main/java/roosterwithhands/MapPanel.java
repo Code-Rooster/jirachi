@@ -21,9 +21,9 @@ public class MapPanel extends JPanel
 
     public void ChangeZoom(int amount, Point zoomPos)
     {
-        if((zoomAmount > -zoomRange && amount < 0) || (zoomAmount < zoomRange && amount > 0))
+        if((zoomAmount > 0 && amount < 0) || (zoomAmount < zoomRange && amount > 0))
         {
-            zoomAmount = Operations.IntClamp(zoomAmount += amount, -zoomRange, zoomRange);
+            zoomAmount = Operations.IntClamp(zoomAmount += amount, 0, zoomRange);
 
             jirachiFrame.focalPoint = Operations.FrameToWorldPoint(MouseManager.lastMousePos, this).ClampRect(0, map.getIconWidth(), 0, map.getIconHeight());
 

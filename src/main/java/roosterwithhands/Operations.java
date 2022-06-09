@@ -101,8 +101,6 @@ public class Operations implements ActionListener {
 
         Point worldPoint = new Point(Math.round(v.x), Math.round(v.y)).ClampRect(0, mapPanel.map.getIconWidth(), 0, mapPanel.map.getIconHeight());
 
-        System.out.println(worldPoint.x + ", " + worldPoint.y);
-        
         return worldPoint;
     }
 }
