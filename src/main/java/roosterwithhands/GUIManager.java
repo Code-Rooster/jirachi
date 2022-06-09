@@ -31,9 +31,12 @@ public class GUIManager
     public void CreateAndShowNewAreaGUI()
     {
         JDialog newAreaDialog = new JDialog(jirachiFrame, "Create new area");
-        newAreaDialog.add(new NewAreaDialog());
+        newAreaDialog.add(new NewAreaDialog(newAreaDialog));
 
         newAreaDialog.pack();
+
+        newAreaDialog.setLocationRelativeTo(null);
+
         newAreaDialog.setVisible(true);
     }
 
@@ -42,7 +45,6 @@ public class GUIManager
         JFileChooser mapChooser = new JFileChooser();
 
         jirachiFrame.add(mapChooser);
-        //App.frame.pack();
     }
 
     public static void ShowContextMenu(Component invoker, JPopupMenu menuToShow)

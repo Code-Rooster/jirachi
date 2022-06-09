@@ -1,5 +1,6 @@
 package roosterwithhands;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -41,9 +42,30 @@ public class MapPanel extends JPanel
         super.paintComponent(g);
 
         panelRect = jirachiFrame.RecalculateRect();
-        
-        g.drawImage(map.getImage(), panelRect.x, panelRect.y, panelRect.width, panelRect.height, this);
 
-        //g.fillRect(MouseManager.lastWorldPos.x, MouseManager.lastWorldPos.y, 20, 20);
+        g.drawImage(map.getImage(), panelRect.x, panelRect.y, panelRect.width, panelRect.height, this);
+        
+        if(App.areaManager.areas != null)
+        {
+            for (Area area : App.areaManager.areas) 
+            {   
+                Point p = Operations.WorldToFramePoint(area.point, this).Subtract(new Point(10, 35));
+
+                if(area != MouseManager.currentArea)
+                {
+                    g.setColor(new Color(0, 0, 1, 0.5f));
+                    g.fillOval(p.x , p.y, 20, 20);
+                }
+                else
+                {
+                    g.setColor(new Color(1, 1, 1, 0.75f));
+                    g.drawRect(p.x - (int) ((float) g.getFontMetrics().stringWidth(area.name) / 2), p.y - 10, g.getFontMetrics().stringWidth(area.name) + 15, 15);
+                    g.setColor(new Color(0, 0, 0, 255));
+                    g.drawString(area.name, p.x, p.y);
+                    g.setColor(new Color(1, 1, 0, 0.75f));
+                    g.fillOval(p.x , p.y, 20, 20);
+                }
+            }
+        }
     }
 }

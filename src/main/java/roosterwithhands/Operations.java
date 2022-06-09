@@ -11,20 +11,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Operations implements ActionListener {
-    public static Area GetNearestArea(Point targetPoint)
+    public static Area GetNearestArea(Point targetWorldPoint)
     {
-        List<Area> areas = AreaManager.areas;
+        List<Area> areas = App.areaManager.areas;
 
         if(areas != null && areas.size() > 0)
         {
-            int areaRadius = 10;
+            int areaRadius = 50;
             Area currentClosestArea = areas.get(0);
-            float currentShortestDistance = GetDistance(targetPoint, currentClosestArea.point);
-            areas.remove(0);
+            float currentShortestDistance = GetDistance(targetWorldPoint, currentClosestArea.point);
 
             for (Area area : areas)
             {
-                float newDist = GetDistance(targetPoint, area.point);
+                float newDist = GetDistance(targetWorldPoint, area.point);
                 if(newDist < currentShortestDistance)
                 {
                     currentShortestDistance = newDist;
@@ -102,5 +101,18 @@ public class Operations implements ActionListener {
         Point worldPoint = new Point(Math.round(v.x), Math.round(v.y)).ClampRect(0, mapPanel.map.getIconWidth(), 0, mapPanel.map.getIconHeight());
 
         return worldPoint;
+    }
+
+    public static Point WorldToFramePoint(Point p, MapPanel mapPanel)
+    {
+        Vector2 v = new Vector2((float) p.x, (float) p.y);
+
+        v = v.Multiply(mapPanel.GetCurrentDiagLen() / mapPanel.initDiagLen);
+
+        v = v.Add(new Vector2(mapPanel.panelRect.x, mapPanel.panelRect.y));
+
+        Point framePoint = new Point(Math.round(v.x), Math.round(v.y));
+
+        return framePoint;
     }
 }

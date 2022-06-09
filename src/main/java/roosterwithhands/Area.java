@@ -16,6 +16,6 @@ public class Area
         this.point = p;
         this.themeMusic = mus;
 
-        AreaManager.AddArea(this);
+        App.areaManager.AddArea(this);
     }
 }

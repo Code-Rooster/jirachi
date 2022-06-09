@@ -1,17 +1,26 @@
 package roosterwithhands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AreaManager {
     // Maybe make this a dictionary later? (only if needed)
-    public static List<Area> areas;
+    public List<Area> areas = new ArrayList<Area>();
 
-    public static void AddArea(Area area)
+    public AreaManager()
     {
-        areas.add(area);
+        //areas = List.of(new Area("Test Area", new Point(100, 100), null));
     }
 
-    public static void RemoveArea(Area area)
+    public void AddArea(Area area)
+    {
+        if(!areas.contains(area))
+        {
+            areas.add(area);
+        }
+    }
+
+    public void RemoveArea(Area area)
     {
         if(areas.contains(area))
         {

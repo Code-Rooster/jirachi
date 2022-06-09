@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 public class MouseManager {
     public static Point lastMousePos;
 
+    public static Area currentArea;
+
     public static void AddMouseListeners(JFrame frame)
     {
         frame.addMouseListener(new MouseAdapter()
@@ -45,9 +47,15 @@ public class MouseManager {
             @Override
             public void mouseMoved(MouseEvent e)
             {
-                lastMousePos = new Point(e.getX(), e.getY());
+                if(App.guiManager.jirachiFrame.isFocused() && !App.inDialog)
+                {
+                    lastMousePos = new Point(e.getX(), e.getY());
+                    Point lastWorldPos = Operations.FrameToWorldPoint(lastMousePos, App.guiManager.jirachiFrame.mapPanel);
 
-                App.guiManager.jirachiFrame.mapPanel.repaint();
+                    currentArea = Operations.GetNearestArea(lastWorldPos);
+
+                    App.guiManager.jirachiFrame.mapPanel.repaint();
+                }
             }
 
             @Override
