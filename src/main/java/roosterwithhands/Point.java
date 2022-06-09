@@ -1,6 +1,7 @@
 package roosterwithhands;
 
-public class Point {
+public class Point
+{
     int x;
     int y;
 
@@ -40,6 +41,14 @@ public class Point {
     public Point Divide(float f)
     {
         return new Point((int) (this.x / f), (int) (this.y / f));
+    }
+
+    public Point ClampRect(int xMin, int xMax, int yMin, int yMax)
+    {
+        int newX = Operations.IntClamp(this.x, xMin, xMax);
+        int newY = Operations.IntClamp(this.y, yMin, yMax);
+
+        return new Point(newX, newY);
     }
 
     public static Point zero = new Point(0, 0);

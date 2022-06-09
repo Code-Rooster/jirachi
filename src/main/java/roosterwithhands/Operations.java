@@ -57,6 +57,11 @@ public class Operations implements ActionListener {
         return (original > max ? max : original < min ? min : original);
     }
 
+    public static float FloatClamp(float original, float min, float max)
+    {
+        return (original > max ? max : original < min ? min : original);
+    }
+
     public static void CreateArea(Point p, JFrame parentFrame)
     {
         JDialog dialog = new JDialog(parentFrame, "Create a new Area");
@@ -66,11 +71,8 @@ public class Operations implements ActionListener {
 
         button.addActionListener(new Operations());
 
-        //JFileChooser chooser = new JFileChooser();
-
         dialog.add(chosenSong);
         dialog.add(button);
-        //dialog.add(chooser);
 
         dialog.pack();
         dialog.setVisible(true);
@@ -84,5 +86,23 @@ public class Operations implements ActionListener {
         {
             
         }
+    }
+
+    public static Point FrameToWorldPoint(Point p, MapPanel mapPanel)
+    {
+        Vector2 v = new Vector2((float) p.x, (float) p.y);
+
+        v = v.Subtract(new Vector2(mapPanel.panelRect.x, mapPanel.panelRect.y));
+        
+        v = v.Divide(mapPanel.GetCurrentDiagLen() / mapPanel.initDiagLen);
+
+        v.x = FloatClamp(v.x, 0, mapPanel.map.getIconWidth());
+        v.y = FloatClamp(v.y, 0, mapPanel.map.getIconHeight());
+
+        Point worldPoint = new Point(Math.round(v.x), Math.round(v.y)).ClampRect(0, mapPanel.map.getIconWidth(), 0, mapPanel.map.getIconHeight());
+
+        System.out.println(worldPoint.x + ", " + worldPoint.y);
+        
+        return worldPoint;
     }
 }

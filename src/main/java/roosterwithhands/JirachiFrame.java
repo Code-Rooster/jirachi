@@ -11,6 +11,8 @@ public class JirachiFrame extends JFrame implements ComponentListener
     public float aspectRatio;
     MapPanel mapPanel;
 
+    Point focalPoint = Point.zero;
+
     public JirachiFrame()
     {
         ImageIcon map = App.guiManager.mapPanel.map;
@@ -43,10 +45,7 @@ public class JirachiFrame extends JFrame implements ComponentListener
         rect.width = (int) ((mapPanel.GetCurrentDiagLen() * aspectRatio) / Math.sqrt(Math.pow(aspectRatio, 2) + 1));
         rect.height = (int) (mapPanel.GetCurrentDiagLen() / Math.sqrt(Math.pow(App.guiManager.jirachiFrame.aspectRatio, 2) + 1));
 
-        Point focalPoint = new Point(0.75 * mapPanel.getWidth(), 0.75 * mapPanel.getHeight());
-
         rect.x = (int) ((float) (rect.width - getWidth()) / -((float) mapPanel.getWidth() / (float) focalPoint.x));
-
         rect.y = (int) ((float) (rect.height - getHeight()) / -((float) mapPanel.getHeight() / (float) focalPoint.y));
         
         return rect;
