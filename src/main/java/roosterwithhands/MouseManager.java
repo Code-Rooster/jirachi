@@ -10,7 +10,8 @@ import java.awt.event.MouseEvent;
 public class MouseManager {
     public static Point lastMousePos;
 
-    public static Area currentArea;
+    public static Area highlightedArea;
+    public static Area selectedArea;
 
     public static void AddMouseListeners(JFrame frame)
     {
@@ -23,15 +24,19 @@ public class MouseManager {
                 {
                     // Handle right mouse button clicked
 
-                    if(Operations.GetNearestArea(Operations.FrameToWorldPoint(lastMousePos, App.guiManager.jirachiFrame.mapPanel)) != null)
+                    if(highlightedArea != null)
                     {
                         // Handle clicking on an area
+
+                        selectedArea = highlightedArea;
+
+                        App.guiManager.ShowContextMenu(e.getComponent(), App.guiManager.overArea);
                     }
                     else
                     {
                         // Handle clicking on nothing
 
-                        GUIManager.ShowContextMenu(e.getComponent(), App.guiManager.overNothing);
+                        App.guiManager.ShowContextMenu(e.getComponent(), App.guiManager.overNothing);
                     }
                 }
                 else if(SwingUtilities.isLeftMouseButton(e))
@@ -52,7 +57,7 @@ public class MouseManager {
                     lastMousePos = new Point(e.getX(), e.getY());
                     Point lastWorldPos = Operations.FrameToWorldPoint(lastMousePos, App.guiManager.jirachiFrame.mapPanel);
 
-                    currentArea = Operations.GetNearestArea(lastWorldPos);
+                    highlightedArea = Operations.GetNearestArea(lastWorldPos);
 
                     App.guiManager.jirachiFrame.mapPanel.repaint();
                 }

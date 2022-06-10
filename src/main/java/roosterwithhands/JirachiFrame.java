@@ -6,10 +6,14 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class JirachiFrame extends JFrame implements ComponentListener
 {
     public float aspectRatio;
     MapPanel mapPanel;
+    
+    public JLabel currentLocationLabel;
 
     Point focalPoint = Point.zero;
 
@@ -25,6 +29,10 @@ public class JirachiFrame extends JFrame implements ComponentListener
         mapPanel = App.guiManager.mapPanel;
         mapPanel.jirachiFrame = this;
 
+        currentLocationLabel = new JLabel("test");
+
+        this.add(currentLocationLabel);
+        
         this.add(mapPanel);
 
         this.addComponentListener(this);
@@ -69,17 +77,5 @@ public class JirachiFrame extends JFrame implements ComponentListener
     @Override
     public void componentHidden(ComponentEvent e) {
         
-    }
-    
-    class FloatDimension
-    {
-        float width;
-        float height;
-
-        public FloatDimension(float w, float h)
-        {
-            this.width = w;
-            this.height = h;
-        }
     }
 }

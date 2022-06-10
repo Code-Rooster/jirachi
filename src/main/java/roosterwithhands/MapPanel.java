@@ -51,18 +51,21 @@ public class MapPanel extends JPanel
             {   
                 Point p = Operations.WorldToFramePoint(area.point, this).Subtract(new Point(10, 35));
 
-                if(area != MouseManager.currentArea)
+                if(area != MouseManager.highlightedArea)
                 {
-                    g.setColor(new Color(0, 0, 1, 0.5f));
+                    g.setColor(new Color(0, 0, 1, 0.25f));
                     g.fillOval(p.x , p.y, 20, 20);
                 }
                 else
                 {
+                    int stringWidth = g.getFontMetrics().stringWidth(area.name);
+                    int textX = p.x - (int) ((float) stringWidth / 2) + 2;
+
                     g.setColor(new Color(1, 1, 1, 0.75f));
-                    g.drawRect(p.x - (int) ((float) g.getFontMetrics().stringWidth(area.name) / 2), p.y - 10, g.getFontMetrics().stringWidth(area.name) + 15, 15);
+                    g.fillRoundRect(textX, p.y - 20, stringWidth + 15, 15, 2, 2);
                     g.setColor(new Color(0, 0, 0, 255));
-                    g.drawString(area.name, p.x, p.y);
-                    g.setColor(new Color(1, 1, 0, 0.75f));
+                    g.drawString(area.name, textX + 7, p.y - 8);
+                    g.setColor(new Color(1, 1, 0, 0.5f));
                     g.fillOval(p.x , p.y, 20, 20);
                 }
             }

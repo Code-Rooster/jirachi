@@ -19,7 +19,7 @@ public class GUIManager
 
     public GUIManager()
     {
-        FlatMaterialPalenightContrastIJTheme.setup();
+        //FlatMaterialPalenightContrastIJTheme.setup();
     }
 
     public void StartGUI()
@@ -47,11 +47,12 @@ public class GUIManager
         jirachiFrame.add(mapChooser);
     }
 
-    public static void ShowContextMenu(Component invoker, JPopupMenu menuToShow)
+    public void ShowContextMenu(Component invoker, JPopupMenu menuToShow)
     {
         menuToShow.show(invoker, MouseManager.lastMousePos.x, MouseManager.lastMousePos.y);
     }
 
+    // Get rid of double brace initialization. Sloppy & dangerous.
     public JPopupMenu overNothing = new JPopupMenu()
     {{
         JMenuItem newArea = new JMenuItem("Create new area");
@@ -86,5 +87,18 @@ public class GUIManager
             }
         });
         add(playTestMusic);
+    }};
+
+    public JPopupMenu overArea = new JPopupMenu()
+    {{
+        JMenuItem goHere = new JMenuItem("Go here");
+        goHere.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                jirachiFrame.currentLocationLabel.setText("Current Location: " + MouseManager.selectedArea.name);
+            }
+        });
+        add(goHere);
     }};
 }
