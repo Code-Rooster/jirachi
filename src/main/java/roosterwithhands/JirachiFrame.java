@@ -1,24 +1,32 @@
 package roosterwithhands;
 
+import java.awt.Image;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class JirachiFrame extends JFrame implements ComponentListener
 {
     public float aspectRatio;
     MapPanel mapPanel;
     
-    public JLabel currentLocationLabel;
-
     Point focalPoint = Point.zero;
 
     public JirachiFrame()
     {
+        List<Image> icons = new ArrayList<Image>();
+        icons.add(new ImageIcon("src/images/shayminIcon16.png").getImage());
+        icons.add(new ImageIcon("src/images/shayminIcon32.png").getImage());
+        icons.add(new ImageIcon("src/images/shayminIcon64.png").getImage());
+        icons.add(new ImageIcon("src/images/shayminIcon128.png").getImage());
+
+        this.setIconImages(icons);
+
         ImageIcon map = App.guiManager.mapPanel.map;
         aspectRatio = (float)map.getIconWidth() / (float)map.getIconHeight();
 
@@ -28,15 +36,11 @@ public class JirachiFrame extends JFrame implements ComponentListener
 
         mapPanel = App.guiManager.mapPanel;
         mapPanel.jirachiFrame = this;
-
-        currentLocationLabel = new JLabel("test");
-
-        this.add(currentLocationLabel);
         
         this.add(mapPanel);
-
+        
         this.addComponentListener(this);
-
+        
         this.setPreferredSize(new Dimension(map.getImage().getWidth(this), map.getImage().getHeight(this)));
         
         this.pack();

@@ -19,8 +19,6 @@ public class App extends JFrame
 
     public static void main(String[] args) throws LoginException, InterruptedException
     {
-        Area area = new Area("test area", new Point(100, 300), null);
-        
         guiManager.StartGUI();
         
         JirachiBot.StartBot();

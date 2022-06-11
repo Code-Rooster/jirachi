@@ -1,21 +1,24 @@
 package roosterwithhands;
 
-import javax.print.attribute.standard.Media;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Area
+public class Area implements java.io.Serializable
 {
     public String name;
 
     public Point point;
 
-    public Media themeMusic;
+    public String areaTheme;
 
-    public Area(String n, Point p, Media mus)
+    public Area(@JsonProperty("name") String n, @JsonProperty("point") Point p, @JsonProperty("areaTheme") String mus)
     {
         this.name = n;
         this.point = p;
-        this.themeMusic = mus;
+        this.areaTheme = mus;
 
-        App.areaManager.AddArea(this);
+        if(App.areaManager != null)
+        {
+            App.areaManager.AddArea(this);
+        }
     }
 }

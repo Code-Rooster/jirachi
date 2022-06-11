@@ -1,11 +1,13 @@
 package roosterwithhands;
 
-public class Point
-{
-    int x;
-    int y;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public Point(int xPos, int yPos)
+public class Point implements java.io.Serializable
+{
+    public int x;
+    public int y;
+
+    public Point(@JsonProperty("x") int xPos, @JsonProperty("y") int yPos)
     {
         this.x = xPos;
         this.y = yPos;

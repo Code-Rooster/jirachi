@@ -1,10 +1,9 @@
 package roosterwithhands;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MapPanel extends JPanel
@@ -18,7 +17,29 @@ public class MapPanel extends JPanel
 
     public Rectangle panelRect;
 
+    public JPanel currentLocationPanel;
+    public JLabel currentLocationLabel;
+
     float initDiagLen = Operations.GetDistance(Point.zero, new Point(map.getIconWidth(), map.getIconHeight()));
+
+    public MapPanel()
+    {
+        super(new GridBagLayout());
+
+        currentLocationPanel = new JPanel();
+        currentLocationPanel.setBackground(new Color(1, 1, 1, 0.5f));
+        currentLocationLabel = new JLabel("Current Location: ");
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.weighty = 1;
+        c.weightx = 1;
+
+        add(currentLocationPanel, c);
+
+        currentLocationPanel.add(currentLocationLabel);
+    }
 
     public void ChangeZoom(int amount, Point zoomPos)
     {
@@ -51,12 +72,12 @@ public class MapPanel extends JPanel
             {   
                 Point p = Operations.WorldToFramePoint(area.point, this).Subtract(new Point(10, 35));
 
-                if(area != MouseManager.highlightedArea)
+                if(area != MouseManager.highlightedArea && area != MouseManager.selectedArea)
                 {
                     g.setColor(new Color(0, 0, 1, 0.25f));
                     g.fillOval(p.x , p.y, 20, 20);
                 }
-                else
+                else if(area != MouseManager.selectedArea)
                 {
                     int stringWidth = g.getFontMetrics().stringWidth(area.name);
                     int textX = p.x - (int) ((float) stringWidth / 2) + 2;
@@ -66,6 +87,11 @@ public class MapPanel extends JPanel
                     g.setColor(new Color(0, 0, 0, 255));
                     g.drawString(area.name, textX + 7, p.y - 8);
                     g.setColor(new Color(1, 1, 0, 0.5f));
+                    g.fillOval(p.x , p.y, 20, 20);
+                }
+                else
+                {
+                    g.setColor(new Color(0.75f, 0, 0.75f, 0.75f));
                     g.fillOval(p.x , p.y, 20, 20);
                 }
             }

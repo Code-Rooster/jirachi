@@ -51,4 +51,18 @@ public class JirachiBot
             }
         }
     }
+
+    public static void PlayMusic(String mus)
+    {
+        for (VoiceChannel channel : bot.getGuildById(guildID).getVoiceChannels()) 
+        {
+            for (Member member : channel.getMembers()) 
+            {
+                if(member.getId().equals(discordID))
+                {
+                    PlayerManager.getInstance().loadAndPlay(mus);
+                }
+            }
+        }
+    }
 }

@@ -1,25 +1,42 @@
 package roosterwithhands;
 
-import java.awt.event.*;
 import java.awt.Component;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightContrastIJTheme;
 
-import roosterwithhands.JirachiBot.JirachiBot;
 
 public class GUIManager
 {
     public JirachiFrame jirachiFrame;
     public MapPanel mapPanel;
 
+    public JDialog newAreaDialog;
+    
+    private ContextMenuItems cMI;
+
+    public JPopupMenu overNothing = new JPopupMenu();
+    public JPopupMenu overArea = new JPopupMenu();
+
     public GUIManager()
     {
+        // For some reason this doesn't work on mac?
         //FlatMaterialPalenightContrastIJTheme.setup();
+
+        cMI = new ContextMenuItems();
+
+        overNothing.add(cMI.newArea);
+        overNothing.addSeparator();
+        overNothing.add(cMI.changeMap);
+
+        overArea.add(cMI.goHere);
+        overArea.addSeparator();
+        overArea.add(cMI.editArea);
+        overArea.addSeparator();
+        overArea.add(cMI.deleteArea);
     }
 
     public void StartGUI()
@@ -30,7 +47,7 @@ public class GUIManager
 
     public void CreateAndShowNewAreaGUI()
     {
-        JDialog newAreaDialog = new JDialog(jirachiFrame, "Create new area");
+        newAreaDialog = new JDialog(jirachiFrame, "Create new area");
         newAreaDialog.add(new NewAreaDialog(newAreaDialog));
 
         newAreaDialog.pack();
@@ -51,54 +68,4 @@ public class GUIManager
     {
         menuToShow.show(invoker, MouseManager.lastMousePos.x, MouseManager.lastMousePos.y);
     }
-
-    // Get rid of double brace initialization. Sloppy & dangerous.
-    public JPopupMenu overNothing = new JPopupMenu()
-    {{
-        JMenuItem newArea = new JMenuItem("Create new area");
-        newArea.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                // Handle the creation of a new area
-                CreateAndShowNewAreaGUI();
-            }
-        });
-        add(newArea);
-
-        JMenuItem changeMap = new JMenuItem("Change map");
-        changeMap.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                ChangeMap();
-            }
-        });
-        add(changeMap);
-
-        addSeparator();
-
-        JMenuItem playTestMusic = new JMenuItem("Play test music in VC");
-        playTestMusic.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                JirachiBot.PlayTestMusic();
-            }
-        });
-        add(playTestMusic);
-    }};
-
-    public JPopupMenu overArea = new JPopupMenu()
-    {{
-        JMenuItem goHere = new JMenuItem("Go here");
-        goHere.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                jirachiFrame.currentLocationLabel.setText("Current Location: " + MouseManager.selectedArea.name);
-            }
-        });
-        add(goHere);
-    }};
 }
