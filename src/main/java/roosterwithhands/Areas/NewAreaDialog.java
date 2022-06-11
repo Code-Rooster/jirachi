@@ -1,4 +1,4 @@
-package roosterwithhands;
+package roosterwithhands.Areas;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,7 +6,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JTextField;
 
-public class NewAreaDialog extends JPanel implements ActionListener 
+import roosterwithhands.App;
+import roosterwithhands.JirachiContainer;
+import roosterwithhands.Operations;
+import roosterwithhands.Point;
+
+public class NewAreaDialog extends JPanel implements ActionListener, JirachiContainer
 {
     protected JLabel nameLabel;
     protected JTextField areaNameField;
@@ -20,12 +25,10 @@ public class NewAreaDialog extends JPanel implements ActionListener
 
     String name;
 
-    public NewAreaDialog(JDialog parent)
+    public NewAreaDialog()
     {
         super(new GridBagLayout());
         
-        App.inDialog = true;
-
         nameLabel = new JLabel("Name of new area: ");
         areaNameField = new JTextField(20);
 
@@ -62,6 +65,8 @@ public class NewAreaDialog extends JPanel implements ActionListener
         c.gridx = 2;
         c.gridy = 2;
         add(confirmButton, c);
+
+        App.openJContainers.add(this);
     }
 
     @Override
@@ -84,16 +89,39 @@ public class NewAreaDialog extends JPanel implements ActionListener
         if(e.getSource() == confirmButton)
         {
             Area newArea = new Area(areaNameField.getText(), 
-                    Operations.FrameToWorldPoint(MouseManager.lastMousePos, 
+                    Operations.FrameToWorldPoint(App.guiManager.jirachiFrame.mousePos, 
                     App.guiManager.jirachiFrame.mapPanel), songPathField.getText());
 
             App.guiManager.jirachiFrame.mapPanel.repaint();
-            App.inDialog = false;
+
+            App.openJContainers.remove(this);
 
             App.guiManager.newAreaDialog.dispose();
         }
 
         System.out.println("action performed");
         name = areaNameField.getText();
+    }
+
+    
+
+    @Override
+    public void HandleMouseMoved(Point newPos) {
+        
+    }
+
+    @Override
+    public void HandleMouseWheelMoved(int amount) {
+        
+    }
+
+    @Override
+    public void HandleRightClick() {
+        
+    }
+
+    @Override
+    public void HandleLeftClick() {
+        
     }
 }

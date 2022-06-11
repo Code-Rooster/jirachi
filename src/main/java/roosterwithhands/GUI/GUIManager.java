@@ -1,4 +1,4 @@
-package roosterwithhands;
+package roosterwithhands.GUI;
 
 import java.awt.Component;
 
@@ -8,6 +8,10 @@ import javax.swing.JPopupMenu;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightContrastIJTheme;
 
+import roosterwithhands.MouseManager;
+import roosterwithhands.Areas.NewAreaDialog;
+import roosterwithhands.Encounters.EncounterDialog;
+
 
 public class GUIManager
 {
@@ -15,6 +19,7 @@ public class GUIManager
     public MapPanel mapPanel;
 
     public JDialog newAreaDialog;
+    public JDialog newEncounterDialog;
     
     private ContextMenuItems cMI;
 
@@ -31,6 +36,7 @@ public class GUIManager
         overNothing.add(cMI.newArea);
         overNothing.addSeparator();
         overNothing.add(cMI.changeMap);
+        overNothing.add(cMI.newEncounter);
 
         overArea.add(cMI.goHere);
         overArea.addSeparator();
@@ -45,16 +51,21 @@ public class GUIManager
         jirachiFrame = new JirachiFrame();
     }
 
-    public void CreateAndShowNewAreaGUI()
+    public void CreateAndShowNewAreaDialog()
     {
         newAreaDialog = new JDialog(jirachiFrame, "Create new area");
-        newAreaDialog.add(new NewAreaDialog(newAreaDialog));
+        newAreaDialog.add(new NewAreaDialog());
 
         newAreaDialog.pack();
 
         newAreaDialog.setLocationRelativeTo(null);
 
         newAreaDialog.setVisible(true);
+    }
+
+    public void CreateAndShowNewEncounterDialog()
+    {
+        newEncounterDialog = new EncounterDialog();
     }
 
     public void ChangeMap()
@@ -66,6 +77,6 @@ public class GUIManager
 
     public void ShowContextMenu(Component invoker, JPopupMenu menuToShow)
     {
-        menuToShow.show(invoker, MouseManager.lastMousePos.x, MouseManager.lastMousePos.y);
+        menuToShow.show(invoker, jirachiFrame.mousePos.x, jirachiFrame.mousePos.y);
     }
 }

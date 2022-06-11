@@ -1,86 +1,58 @@
 package roosterwithhands;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
-
+import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.MouseEvent;
 
-public class MouseManager {
-    public static Point lastMousePos;
+import javax.swing.SwingUtilities;
 
-    public static Area highlightedArea;
-    public static Area selectedArea;
+public class MouseManager extends MouseAdapter
+{
+    public JirachiContainer jContainer;
 
-    public static void AddMouseListeners(JFrame frame)
+    public MouseManager(Container container, JirachiContainer jC)
     {
-        frame.addMouseListener(new MouseAdapter()
+        AddMouseListeners(container);
+
+        jContainer = jC;
+    }
+
+    public void AddMouseListeners(Container container)
+    {
+        container.addMouseListener(this);
+        
+        container.addMouseMotionListener(this);
+
+        container.addMouseWheelListener(this);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e)
+    {
+        super.mouseMoved(e);
+
+        jContainer.HandleMouseMoved(new Point(e.getX(), e.getY()));
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+        super.mouseClicked(e);
+
+        if(SwingUtilities.isRightMouseButton(e))
         {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                if(SwingUtilities.isRightMouseButton(e))
-                {
-                    // Handle right mouse button clicked
-
-                    if(highlightedArea != null)
-                    {
-                        // Handle clicking on an area
-
-                        selectedArea = highlightedArea;
-
-                        App.guiManager.ShowContextMenu(e.getComponent(), App.guiManager.overArea);
-                    }
-                    else
-                    {
-                        // Handle clicking on nothing
-
-                        App.guiManager.ShowContextMenu(e.getComponent(), App.guiManager.overNothing);
-                    }
-                }
-                else if(SwingUtilities.isLeftMouseButton(e))
-                {
-                    // Handle left mouse button clicked
-
-                }
-            }
-        });
-
-        frame.addMouseMotionListener(new MouseInputAdapter()
+            jContainer.HandleRightClick();
+        }
+        else if(SwingUtilities.isLeftMouseButton(e))
         {
-            @Override
-            public void mouseMoved(MouseEvent e)
-            {
-                if(App.guiManager.jirachiFrame.isFocused() && !App.inDialog)
-                {
-                    lastMousePos = new Point(e.getX(), e.getY());
-                    Point lastWorldPos = Operations.FrameToWorldPoint(lastMousePos, App.guiManager.jirachiFrame.mapPanel);
+            jContainer.HandleLeftClick();
+        }
+    }
 
-                    highlightedArea = Operations.GetNearestArea(lastWorldPos);
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e)
+    {
+        super.mouseWheelMoved(e);
 
-                    App.guiManager.jirachiFrame.mapPanel.repaint();
-                }
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if(SwingUtilities.isRightMouseButton(e))
-                {
-                    lastMousePos = new Point(e.getX(), e.getY());
-                    Point p = Operations.FrameToWorldPoint(new Point(e.getX(), e.getY()), App.guiManager.jirachiFrame.mapPanel);
-                    System.out.println(p.x + ", " + p.y);
-                }
-                super.mouseDragged(e);
-            }
-        });
-
-        frame.addMouseWheelListener(new MouseAdapter() {
-            public void mouseWheelMoved(MouseWheelEvent e)
-            {
-                int notches = e.getWheelRotation();
-                App.guiManager.mapPanel.ChangeZoom(notches, lastMousePos);
-            }
-        });
+        jContainer.HandleMouseWheelMoved(e.getWheelRotation());
     }
 }

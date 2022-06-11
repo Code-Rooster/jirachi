@@ -10,6 +10,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import roosterwithhands.Areas.Area;
+import roosterwithhands.GUI.MapPanel;
+
 public class Operations implements ActionListener {
     public static Area GetNearestArea(Point targetWorldPoint)
     {
@@ -79,12 +82,7 @@ public class Operations implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
 
-        if(actionCommand.equals("Choose Song"))
-        {
-            
-        }
     }
 
     public static Point FrameToWorldPoint(Point p, MapPanel mapPanel)

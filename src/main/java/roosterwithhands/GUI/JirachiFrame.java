@@ -1,7 +1,6 @@
-package roosterwithhands;
+package roosterwithhands.GUI;
 
 import java.awt.Image;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Dimension;
@@ -10,12 +9,25 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class JirachiFrame extends JFrame implements ComponentListener
+import roosterwithhands.App;
+import roosterwithhands.JirachiContainer;
+import roosterwithhands.MouseManager;
+import roosterwithhands.Operations;
+import roosterwithhands.Point;
+import roosterwithhands.Areas.Area;
+
+public class JirachiFrame extends JFrame implements JirachiContainer
 {
     public float aspectRatio;
-    MapPanel mapPanel;
+    public MapPanel mapPanel;
+
+    public Area highlightedArea;
+    public Area selectedArea;
+
+    public MouseManager mouseManager;
     
-    Point focalPoint = Point.zero;
+    public Point mousePos;
+    public Point focalPoint = Point.zero;
 
     public JirachiFrame()
     {
@@ -32,14 +44,13 @@ public class JirachiFrame extends JFrame implements ComponentListener
 
         this.setTitle("Pokemon Mystery Manager");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        MouseManager.AddMouseListeners(this);
+
+        mouseManager = new MouseManager(this, this);
 
         mapPanel = App.guiManager.mapPanel;
         mapPanel.jirachiFrame = this;
         
         this.add(mapPanel);
-        
-        this.addComponentListener(this);
         
         this.setPreferredSize(new Dimension(map.getImage().getWidth(this), map.getImage().getHeight(this)));
         
@@ -64,22 +75,38 @@ public class JirachiFrame extends JFrame implements ComponentListener
     }
 
     @Override
-    public void componentResized(ComponentEvent e) {
+    public void HandleMouseMoved(Point newPos) 
+    {
+        mousePos = newPos;
+        Point worldPos = Operations.FrameToWorldPoint(newPos, mapPanel);
 
+        highlightedArea = Operations.GetNearestArea(Operations.FrameToWorldPoint(newPos, mapPanel));
+
+        mapPanel.repaint();
     }
 
     @Override
-    public void componentMoved(ComponentEvent e) {
-        
+    public void HandleMouseWheelMoved(int amount)
+    {
+        focalPoint = mousePos;
+        mapPanel.ChangeZoom(amount);
     }
 
     @Override
-    public void componentShown(ComponentEvent e) {
-        
+    public void HandleRightClick() {
+        if(highlightedArea != null)
+        {
+            selectedArea = highlightedArea;
+            App.guiManager.ShowContextMenu(this, App.guiManager.overArea);
+        }
+        else
+        {
+            App.guiManager.ShowContextMenu(this, App.guiManager.overNothing);
+        }
     }
 
     @Override
-    public void componentHidden(ComponentEvent e) {
-        
+    public void HandleLeftClick() {
+
     }
 }

@@ -1,10 +1,16 @@
-package roosterwithhands;
+package roosterwithhands.GUI;
 
 import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import roosterwithhands.App;
+import roosterwithhands.MouseManager;
+import roosterwithhands.Operations;
+import roosterwithhands.Point;
+import roosterwithhands.Areas.Area;
 
 public class MapPanel extends JPanel
 {
@@ -20,7 +26,7 @@ public class MapPanel extends JPanel
     public JPanel currentLocationPanel;
     public JLabel currentLocationLabel;
 
-    float initDiagLen = Operations.GetDistance(Point.zero, new Point(map.getIconWidth(), map.getIconHeight()));
+    public float initDiagLen = Operations.GetDistance(Point.zero, new Point(map.getIconWidth(), map.getIconHeight()));
 
     public MapPanel()
     {
@@ -41,13 +47,11 @@ public class MapPanel extends JPanel
         currentLocationPanel.add(currentLocationLabel);
     }
 
-    public void ChangeZoom(int amount, Point zoomPos)
+    public void ChangeZoom(int amount)
     {
         if((zoomAmount > 0 && amount < 0) || (zoomAmount < zoomRange && amount > 0))
         {
             zoomAmount = Operations.IntClamp(zoomAmount += amount, 0, zoomRange);
-
-            jirachiFrame.focalPoint = Operations.FrameToWorldPoint(MouseManager.lastMousePos, this).ClampRect(0, map.getIconWidth(), 0, map.getIconHeight());
 
             repaint();
         }
@@ -72,12 +76,12 @@ public class MapPanel extends JPanel
             {   
                 Point p = Operations.WorldToFramePoint(area.point, this).Subtract(new Point(10, 35));
 
-                if(area != MouseManager.highlightedArea && area != MouseManager.selectedArea)
+                if(area != App.guiManager.jirachiFrame.highlightedArea && area != App.guiManager.jirachiFrame.selectedArea)
                 {
                     g.setColor(new Color(0, 0, 1, 0.25f));
                     g.fillOval(p.x , p.y, 20, 20);
                 }
-                else if(area != MouseManager.selectedArea)
+                else if(area != App.guiManager.jirachiFrame.selectedArea)
                 {
                     int stringWidth = g.getFontMetrics().stringWidth(area.name);
                     int textX = p.x - (int) ((float) stringWidth / 2) + 2;

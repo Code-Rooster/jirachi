@@ -1,15 +1,17 @@
-package roosterwithhands;
+package roosterwithhands.GUI;
 
 import java.awt.event.*;
 
 import javax.swing.JMenuItem;
 
+import roosterwithhands.App;
 import roosterwithhands.JirachiBot.JirachiBot;
 
 public class ContextMenuItems implements ActionListener
 {
     public JMenuItem newArea = new JMenuItem("Create new area");
     public JMenuItem changeMap = new JMenuItem("Change map");
+    public JMenuItem newEncounter = new JMenuItem("Create new encounter");
 
     public JMenuItem goHere = new JMenuItem("Go here");
     public JMenuItem editArea = new JMenuItem("Edit area");
@@ -20,6 +22,7 @@ public class ContextMenuItems implements ActionListener
     {
         newArea.addActionListener(this);
         changeMap.addActionListener(this);
+        newEncounter.addActionListener(this);
 
         goHere.addActionListener(this);
         editArea.addActionListener(this);
@@ -30,17 +33,21 @@ public class ContextMenuItems implements ActionListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == newArea)
         {
-            App.guiManager.CreateAndShowNewAreaGUI();
+            App.guiManager.CreateAndShowNewAreaDialog();
         }
         else if(e.getSource() == changeMap)
         {
             App.guiManager.ChangeMap();
         }
+        else if(e.getSource() == newEncounter)
+        {
+
+        }
         else if(e.getSource() == goHere)
         {
             App.guiManager.mapPanel.repaint();
-            App.guiManager.mapPanel.currentLocationLabel.setText("Current Location: " + MouseManager.selectedArea.name);
-            JirachiBot.PlayMusic(MouseManager.selectedArea.areaTheme);
+            App.guiManager.mapPanel.currentLocationLabel.setText("Current Location: " + App.guiManager.jirachiFrame.selectedArea.name);
+            JirachiBot.PlayMusic(App.guiManager.jirachiFrame.selectedArea.areaTheme);
         }
         else if(e.getSource() == editArea)
         {
@@ -48,7 +55,7 @@ public class ContextMenuItems implements ActionListener
         }
         else if(e.getSource() == deleteArea)
         {
-            App.areaManager.RemoveArea(MouseManager.selectedArea);
+            App.areaManager.RemoveArea(App.guiManager.jirachiFrame.selectedArea);
             App.guiManager.mapPanel.repaint();
         }
     }

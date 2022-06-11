@@ -2,6 +2,12 @@ package roosterwithhands;
 
 import javax.swing.*;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import roosterwithhands.Areas.AreaManager;
+import roosterwithhands.GUI.GUIManager;
 import roosterwithhands.JirachiBot.JirachiBot;
 
 import javax.security.auth.login.LoginException;
@@ -15,8 +21,7 @@ public class App extends JFrame
 
     public static GUIManager guiManager = new GUIManager();
 
-    public static boolean inDialog = false;
-
+    public static List<JirachiContainer> openJContainers = new ArrayList<JirachiContainer>();
     public static void main(String[] args) throws LoginException, InterruptedException
     {
         guiManager.StartGUI();

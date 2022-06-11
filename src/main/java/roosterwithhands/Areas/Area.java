@@ -1,6 +1,9 @@
-package roosterwithhands;
+package roosterwithhands.Areas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import roosterwithhands.App;
+import roosterwithhands.Point;
 
 public class Area implements java.io.Serializable
 {
